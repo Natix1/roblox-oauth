@@ -20,7 +20,7 @@ const (
 	SessionTokenCookieName = "session_cookie"
 	RedisNamespace         = "robloxoauth:"
 	StoreExpiry            = time.Hour * 24 * 90
-	AccessTokenExpiry      = time.Second * 15
+	AccessTokenExpiry      = time.Minute * 15
 )
 
 type RefreshWithToken int
