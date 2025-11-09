@@ -128,7 +128,7 @@ func RetrieveSession(r *http.Request) (*SessionStore, error) {
 	return &ssidStore, nil
 }
 
-func FetchToken(with RefreshWithToken, token string) (*appTypes.TokenReply, error) {
+func FetchToken(with RefreshWithToken, token string) (*appTypes.TokenFetchResponse, error) {
 	values := url.Values{
 		"client_id":     {server.Environment.ClientId},
 		"client_secret": {server.Environment.ClientSecret},
@@ -165,7 +165,7 @@ func FetchToken(with RefreshWithToken, token string) (*appTypes.TokenReply, erro
 		return nil, ErrNeedsReAuth
 	}
 
-	var data appTypes.TokenReply
+	var data appTypes.TokenFetchResponse
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		server.Logger.Warn(err.Error())
@@ -175,7 +175,7 @@ func FetchToken(with RefreshWithToken, token string) (*appTypes.TokenReply, erro
 	return &data, nil
 }
 
-func CreateSsidStore(w http.ResponseWriter, tokenReply *appTypes.TokenReply) (*SessionStore, error) {
+func CreateSsidStore(w http.ResponseWriter, tokenReply *appTypes.TokenFetchResponse) (*SessionStore, error) {
 	ssid, err := GenerateSessionId()
 	if err != nil {
 		return nil, err

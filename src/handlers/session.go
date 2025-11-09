@@ -47,7 +47,7 @@ func SessionHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer response.Body.Close()
 
-	var data appTypes.UserInfoReply
+	var data appTypes.UserInfoFetchResponse
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		server.Logger.Warn(err.Error())

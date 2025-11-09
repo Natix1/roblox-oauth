@@ -1,6 +1,9 @@
 package appTypes
 
-type TokenReply struct {
+// FetchResponse - > response from another API
+// Reply -> this API's response
+
+type TokenFetchResponse struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 	TokenType    string `json:"token_type"`
@@ -8,7 +11,7 @@ type TokenReply struct {
 	Scope        string `json:"scope"`
 }
 
-type UserInfoReply struct {
+type UserInfoFetchResponse struct {
 	UserId         string `json:"sub"`
 	DisplayName    string `json:"nickname"`
 	Username       string `json:"preferred_username"`
