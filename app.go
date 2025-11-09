@@ -3,22 +3,21 @@ package main
 import (
 	"net/http"
 
-	handlers_login "github.com/natix1/roblox-oauth/src/handlers/auth"
-	handlers_session "github.com/natix1/roblox-oauth/src/handlers/session"
+	"github.com/natix1/roblox-oauth/src/handlers"
 	"github.com/natix1/roblox-oauth/src/middleware"
 )
 
 func authMux() *http.ServeMux {
 	loginMux := http.NewServeMux()
-	loginMux.HandleFunc("/auth_url", handlers_login.AuthUrlHandler)
-	loginMux.HandleFunc("/callback", handlers_login.CallbackHandler)
+	loginMux.HandleFunc("/auth_url", handlers.AuthUrlHandler)
+	loginMux.HandleFunc("/callback", handlers.AuthCallbackHandler)
 
 	return loginMux
 }
 
 func sessionMux() *http.ServeMux {
 	sessionMux := http.NewServeMux()
-	sessionMux.HandleFunc("/session", handlers_session.SessionHandler)
+	sessionMux.HandleFunc("/session", handlers.SessionHandler)
 
 	return sessionMux
 }

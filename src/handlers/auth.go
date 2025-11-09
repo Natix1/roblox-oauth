@@ -1,4 +1,4 @@
-package handlers_auth
+package handlers
 
 import (
 	"encoding/json"
@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"net/url"
 
+	appTypes "github.com/natix1/roblox-oauth/src/app_types"
 	"github.com/natix1/roblox-oauth/src/server"
 	"github.com/natix1/roblox-oauth/src/session"
-	"github.com/natix1/roblox-oauth/src/structs/response/apptypes"
 )
 
 func AuthUrlHandler(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +30,7 @@ func AuthUrlHandler(w http.ResponseWriter, r *http.Request) {
 	values.Add("response_type", "code")
 	redirectUrl.RawQuery = values.Encode()
 
-	serialized, err := json.Marshal(apptypes.AuthURLResponse{
+	serialized, err := json.Marshal(appTypes.AuthUriReply{
 		Url: redirectUrl.String(),
 	})
 	if err != nil {
@@ -42,7 +42,7 @@ func AuthUrlHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(serialized)
 }
 
-func CallbackHandler(w http.ResponseWriter, r *http.Request) {
+func AuthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 	server.Logger.Debug("callback handler called")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)

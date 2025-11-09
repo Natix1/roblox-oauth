@@ -12,8 +12,8 @@ import (
 	"strings"
 	"time"
 
+	appTypes "github.com/natix1/roblox-oauth/src/app_types"
 	"github.com/natix1/roblox-oauth/src/server"
-	"github.com/natix1/roblox-oauth/src/structs/response/apptypes"
 )
 
 const (
@@ -128,7 +128,7 @@ func RetrieveSession(r *http.Request) (*SessionStore, error) {
 	return &ssidStore, nil
 }
 
-func FetchToken(with RefreshWithToken, token string) (*apptypes.TokenReply, error) {
+func FetchToken(with RefreshWithToken, token string) (*appTypes.TokenReply, error) {
 	values := url.Values{
 		"client_id":     {server.Environment.ClientId},
 		"client_secret": {server.Environment.ClientSecret},
@@ -165,7 +165,7 @@ func FetchToken(with RefreshWithToken, token string) (*apptypes.TokenReply, erro
 		return nil, ErrNeedsReAuth
 	}
 
-	var data apptypes.TokenReply
+	var data appTypes.TokenReply
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		server.Logger.Warn(err.Error())
@@ -175,7 +175,7 @@ func FetchToken(with RefreshWithToken, token string) (*apptypes.TokenReply, erro
 	return &data, nil
 }
 
-func CreateSsidStore(w http.ResponseWriter, tokenReply *apptypes.TokenReply) (*SessionStore, error) {
+func CreateSsidStore(w http.ResponseWriter, tokenReply *appTypes.TokenReply) (*SessionStore, error) {
 	ssid, err := GenerateSessionId()
 	if err != nil {
 		return nil, err

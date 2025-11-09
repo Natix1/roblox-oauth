@@ -1,9 +1,11 @@
-package handlers_session
+package handlers
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 
+	appTypes "github.com/natix1/roblox-oauth/src/app_types"
 	"github.com/natix1/roblox-oauth/src/server"
 	"github.com/natix1/roblox-oauth/src/session"
 )
@@ -44,5 +46,13 @@ func SessionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer response.Body.Close()
-	w.Write(body)
+
+	var data appTypes.UserInfoReply
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		server.Logger.Warn(err.Error())
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
 }

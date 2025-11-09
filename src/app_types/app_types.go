@@ -1,4 +1,4 @@
-package apptypes
+package appTypes
 
 type TokenReply struct {
 	AccessToken  string `json:"access_token"`
@@ -14,4 +14,14 @@ type UserInfoReply struct {
 	Username       string `json:"preferred_username"`
 	CreatedAtEpoch int64  `json:"created_at"`
 	ProfileUri     string `json:"profile"`
+}
+
+type SessionReply struct {
+	Username    string `json:"username"`
+	DisplayName string `json:"display_name"`
+	UserId      int    `json:"user_id"`
+}
+
+type AuthUriReply struct {
+	Url string `json:"url"`
 }

@@ -24,6 +24,8 @@ const (
 )
 
 type environmentData struct {
+	AppPort       string
+	AppBind       string
 	ClientId      string
 	ClientSecret  string
 	ClientURI     string
@@ -73,6 +75,8 @@ func init() {
 	}
 
 	Environment = environmentData{
+		AppPort:       AssertEnvironmentValue("APP_PORT"),
+		AppBind:       AssertEnvironmentValue("APP_BIND"),
 		ClientId:      AssertEnvironmentValue("CLIENT_ID"),
 		ClientSecret:  AssertEnvironmentValue("CLIENT_SECRET"),
 		ClientURI:     AssertEnvironmentValue("REDIRECT_URI"),
