@@ -12,11 +12,12 @@ import (
 )
 
 func AuthUrlHandler(w http.ResponseWriter, r *http.Request) {
-	server.Logger.Debug("requested auth url")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
 		return
 	}
+
+	server.Logger.Debug("requested auth url")
 
 	redirectUrl, err := url.Parse("https://apis.roblox.com/oauth/v1/authorize")
 	if err != nil {
@@ -43,6 +44,11 @@ func AuthUrlHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AuthCallbackHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
+
 	server.Logger.Debug("callback handler called")
 	if r.Method != http.MethodGet {
 		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
@@ -76,5 +82,25 @@ func AuthCallbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, "/sessions/session", http.StatusTemporaryRedirect)
+	http.Redirect(w, r, server.Environment.CORSDomain+"/dash", http.StatusTemporaryRedirect)
+}
+
+func AuthLogoutHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	store, err := session.GetStore(w, r)
+	if err != nil {
+		if err == session.ErrNeedsReAuth {
+			http.Error(w, "Already logged out", http.StatusBadRequest)
+			return
+		}
+
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+	session.DropSession(w, store)
+	http.Redirect(w, r, server.Environment.CORSDomain+"/", http.StatusTemporaryRedirect)
 }

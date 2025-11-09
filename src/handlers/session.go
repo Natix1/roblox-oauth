@@ -55,4 +55,16 @@ func SessionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	serialized, err := json.Marshal(appTypes.SessionReply{
+		Username:    data.Username,
+		DisplayName: data.DisplayName,
+		UserId:      data.UserId,
+	})
+	if err != nil {
+		server.Logger.Warn(err.Error())
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Write(serialized)
 }
