@@ -11,6 +11,7 @@ func authMux() *http.ServeMux {
 	loginMux := http.NewServeMux()
 	loginMux.HandleFunc("/auth_url", handlers.AuthUrlHandler)
 	loginMux.HandleFunc("/callback", handlers.AuthCallbackHandler)
+	loginMux.HandleFunc("/logout", handlers.AuthLogoutHandler)
 
 	return loginMux
 }

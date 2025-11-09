@@ -22,7 +22,7 @@ type UserInfoFetchResponse struct {
 type SessionReply struct {
 	Username    string `json:"username"`
 	DisplayName string `json:"display_name"`
-	UserId      int    `json:"user_id"`
+	UserId      string `json:"user_id"`
 }
 
 type AuthUriReply struct {
